@@ -6,6 +6,7 @@
 //  Copyright © 2019 Daniel Kim. All rights reserved.
 //
 
+//#include <opencv2/opencv.hpp>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -15,7 +16,7 @@
 
 using namespace std;
 
-string get_input(ifstream& filename)
+string get_input(const ifstream& filename)
 {
   stringstream stream;
   stream << filename.rdbuf();
@@ -114,7 +115,7 @@ void build_huffman(string text, double size)
         {
             //i is the index of the ascii
 //            queue.push(make_pair(char(i), frequency[i]));
-            cout <<char(i) << " " << frequency[i] << endl;
+            //cout <<char(i) << " " << frequency[i] << endl;
             queue.push(new node(char(i), frequency[i]));
         }
     }
@@ -167,10 +168,20 @@ void build_huffman(string text, double size)
 int main()
 {
   ifstream filename;
+    /*
+     Need to put the file in /Users/dan/Library/Developer/Xcode/DerivedData/HuffmanImages-dnisgolmyrgtlggtmvavtzwqsfbx/Build/Products/Debug/HuffmanImages
+     */
   filename.open("random.txt");
+    if(!filename)
+    {
+        cout <<"Error cannot open file" << endl;
+        return 0;
+    }
   string test = get_input(filename);
   build_huffman(test, test.size());
 
+    ofstream outfile;
+    outfile.open("output.binary");
 
   return 1;
 }
